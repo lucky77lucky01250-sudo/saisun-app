@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 採寸表ジェネレーター
 
-## Getting Started
+メルカリ古着出品の採寸メモをスマホで入力し、出品文にそのまま貼れる実寸1行テキスト
+「実寸：肩幅45 身幅52 着丈70 袖丈58」をワンタップでコピーできるアプリ。
 
-First, run the development server:
+**公開URL**: https://saisun-app.vercel.app
+
+## スクリーンショット
+
+| 入力画面 | 履歴画面 |
+|---|---|
+| ![入力画面](docs/screenshot.png) | ![履歴画面](docs/screenshot-history.png) |
+
+## 誰の・何を・どう解決するか
+
+- **誰の**: 古着せどらー（作者＋古着仲間）
+- **何を**: 週末の30着まとめ撮影で、採寸値を紙にメモ→後日出品文へ手打ち転記する二度手間と転記ミス
+- **どう**: 採寸しながらスマホ入力→localStorageに自動保存→出品時に1行テキストをワンタップコピー
+
+## 主な機能
+
+- 衣類4種（トップス/パンツ/スカート/ワンピース）で入力項目が切り替わる
+- 数字キーパッド自動表示・2桁入力で次の欄へ自動フォーカス（測る順に配置）
+- 一言メモ付き履歴。編集・削除・コピー済みマーク対応
+- サーバー不要（localStorage保存・オフライン入力可）
+
+## 技術スタック
+
+- Next.js 16 (App Router) / TypeScript / Tailwind CSS 4
+- データ保存: localStorage（ログイン・DB不要）
+- ホスティング: Vercel
+
+## 開発
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+要件定義は [requirements.md](requirements.md) を参照。
