@@ -28,6 +28,11 @@ type Entry = {
   copied: boolean;
 };
 
+// 100cmを超えることがある部位。この3つに限り「10〜19cm」という実寸は存在しないため、
+// 先頭2桁が 1x のときだけ3桁目の入力を待ってから次の欄へ移動する。
+// （袖丈15cm・股上15cm・裾幅15cm などは普通にあるので、この扱いに含めない）
+const LONG_FIELDS = new Set(["着丈", "総丈", "ウエスト"]);
+
 const STORAGE_KEY = "saisun-entries";
 
 function typeOf(typeId: GarmentTypeId) {
@@ -85,10 +90,15 @@ export default function Home() {
   function handleValueChange(field: string, index: number, raw: string) {
     const v = raw.replace(/[^0-9.]/g, "");
     setValues((prev) => ({ ...prev, [field]: v }));
-    // 整数2桁で次の欄へ自動移動（3桁や小数は欄をタップして続入力）
-    if (/^\d{2}$/.test(v)) {
-      inputRefs.current[index + 1]?.focus();
+    if (!/^\d+$/.test(v)) return; // 小数の入力中は移動しない
+    if (LONG_FIELDS.has(field)) {
+      // 100cm超がありうる部位。先頭が 1x なら 100〜199 の途中なので3桁目を待つ
+      if (/^1\d$/.test(v)) return;
+      if (v.length >= 2) inputRefs.current[index + 1]?.focus();
+      return;
     }
+    // それ以外は従来どおり整数2桁で次の欄へ自動移動
+    if (v.length === 2) inputRefs.current[index + 1]?.focus();
   }
 
   function switchType(next: GarmentTypeId) {
